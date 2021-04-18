@@ -1,0 +1,9 @@
+.border-bronze {
+    border: 0.5px solid rgba(189,157,123,0.4);
+}
+.none {
+    display: none;
+}
+.block {
+    display: block;
+}
