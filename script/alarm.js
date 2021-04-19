@@ -1,12 +1,14 @@
 // Alarm list
 let alarmList = document.querySelector('#alarm-list');
 
+
 // Display time alarm
 let spanHourAlarm = document.querySelector('#displayHoursAlarm');
 let spanMinutesAlarm = document.querySelector('#displayMinutesAlarm');
 let spanSecondsAlarm = document.querySelector('#displaySecondsAlarm');
 // Error message selector
 let errorBoxAlarm = document.querySelector('#errorBoxAlarm');
+
 
 // Update hour in real time each one second
 setInterval(function () {
@@ -34,12 +36,14 @@ setInterval(function () {
 //Il est possible de chainé then pour plusieurs traitements
 fetch('alarmJson.php').then(res => res.json()).then(data => {
     for (let alarm of data) {
+        // Create alarm to display
         // Applique un interval en vu de simuler l'heure
         let intervall = setInterval(() => {
             // Récup l'heure dans le dom
             let hourAlarm = spanHourAlarm.innerHTML
             let minAlarm = spanMinutesAlarm.innerHTML
             let secAlarm = spanSecondsAlarm.innerHTML
+
 
             //Format pour obtenir une string de l'heure et des alarmes en DB
             let alarmUser = `${alarm['heures']}:${alarm['minutes']}:00`;

@@ -2,6 +2,9 @@
 require_once 'Models/Tools.php';
 //    PDO instance
 $Tool = new Tools();
+//display alarms
+$alarms = $Tool->displayAlarms();
+//Error Box
 $error = null;
 //    Insertion des alarmes en BDD
 if (isset($_POST['addAlarm'])):
@@ -49,23 +52,24 @@ endif;
         <nav id="nav" class="flex h-16">
             <ul class="w-10/12 flex justify-evenly content-center border-bronze  shadow-lg mx-auto">
                 <li class="my-auto m border-r w-3/12  text-center border-gray-400">
-                    <button href="timer" id="timer" class="text-gray-300 text-lg"><i
+                    <a href="#1" id="timer" class="text-gray-300 text-lg"><i
                                 class="mx-1.5 text-lg text-gray-300 far fa-clock"></i>Timer
-                    </button>
+                    </a>
                 </li>
                 <li class="my-auto border-r w-3/12 text-center border-gray-400">
-                    <button href="chrono" id="chrono" class="text-gray-300 text-lg"><i
+                    <a href="#2" id="chrono" class="text-gray-300 text-lg"><i
                                 class="mx-1.5 text-lg text-gray-300 fas fa-stopwatch-20"></i>Chrono
-                    </button>
+                    </a>
                 </li>
                 <li class="my-auto border-r w-3/12 text-center border-gray-400">
-                    <button href="alarm" id="alarm" class="text-gray-300 text-lg"><i
+                    <a href="#3" id="alarm" class="text-gray-300 text-lg"><i
                                 class="mx-1.5 text-lg text-gray-300 far fa-bell"></i>Alarm
-                    </button>
+                    </a>
                 </li>
                 <li class="my-auto border-l w-3/12 text-center border-gray-400">
-                    <button href="watch" id="watch" class="text-gray-300 text-lg"><i class="mx-1.5 text-lg text-gray-300 far fa-clock"></i>Watch
-                    </button>
+                    <a href="#4" id="watch" class="text-gray-300 text-lg"><i
+                                class="mx-1.5 text-lg text-gray-300 far fa-clock"></i>Watch
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -79,7 +83,7 @@ endif;
     </section>
     <div id="main-content">
         <!--TIMER-->
-        <div class="mx-auto flex flex-col mt-16  h-60 bg-black bg-opacity-60 shadow-lg p-8 w-6/12 flex flex-col  justify-evenly content-center">
+        <div id="1" class="p-6 rounded-lg border-bronze mx-auto flex flex-col mt-16  h-60 bg-black bg-opacity-60 shadow-lg p-8 w-6/12 flex flex-col  justify-evenly content-center">
             <h2 class="text-white text-5xl mx-auto font-bold"><span id="displayHoursTimer">00</span>:<span
                         id="displayMinutesTimer">00</span>:<span id="displaySecondsTimer">00</span></h2>
             <div class="mt-6 ">
@@ -116,7 +120,7 @@ endif;
             </div>
         </div>
         <!--            Chrono-->
-        <div class="mx-auto flex flex-col mt-8 h-60 bg-black bg-opacity-60 shadow-lg p-8 w-6/12 flex flex-col  justify-evenly content-center">
+        <div id="2" class="p-6 rounded-lg border-bronze mx-auto flex flex-col mt-8 h-60 bg-black bg-opacity-60 shadow-lg p-8 w-6/12 flex flex-col  justify-evenly content-center">
             <h2 class="text-white text-5xl mx-auto font-bold"><span id="displayMinChrono">00</span>:<span
                         id="displaySecChrono">00</span>:<span id="displayMillisecChrono">00</span></h2>
             <div class="mt-6 ">
@@ -139,43 +143,47 @@ endif;
             </div>
         </div>
         <!--                WATCH-->
-        <div class="mx-auto flex flex-col mt-8 h-60 bg-black bg-opacity-60 shadow-lg p-8 w-6/12 flex flex-col  justify-evenly content-center">
+        <div id="4" class="p-6 rounded-lg border-bronze mx-auto flex flex-col mt-8 h-60 bg-black bg-opacity-60 shadow-lg p-8 w-6/12 flex flex-col  justify-evenly content-center">
             <h2 class="text-white text-5xl mx-auto font-bold">
                 <span id="displayHorloge">00:00:00</span>
         </div>
         <!--            Alarm-->
-        <div>
-            <div class="bg-black bg-opacity-60 mt-16 w-10/12 mx-auto">
-                <div class="flex">
-                    <div class="w-1/2 text-center">
-                        <h2 class="text-white text-5xl mx-auto font-bold">
-                            <span id="displayHoursAlarm">00:</span><span id="displayMinutesAlarm">00:</span><span id="displaySecondsAlarm">00</span></h2>
+        <div id="3">
+            <div class="p-6 rounded-lg border-bronze bg-black bg-opacity-60 mt-16 w-10/12 mx-auto">
+                <div class="flex  justify-evenly ">
+                    <div class="w-1/2 text-center self-center">
+                        <h2 class="text-white text-5xl mx-auto font-bold"><span id="displayHoursAlarm">00:</span><span
+                                    id="displayMinutesAlarm">00:</span><span id="displaySecondsAlarm">00</span></h2>
                     </div>
                     <!-- Liste des alarmes -->
                     <div class="w-1/2 p-6">
                         <h2 class="text-green-500 text-lg text-center bg-opacity-70 rounded-lg bg-black w-2/4 mx-auto">
                             Mes alarmes</h2>
                         <ul id="alarm-list" class="text-center">
+                            <?php foreach ($alarms as $alarm): ?>
+                                <li class="text-green-500"><?= $alarm['heures'] . ':' . $alarm['minutes'] ?></li>
+                            <?php endforeach; ?>
+
                         </ul>
                     </div>
                 </div>
-                <div class=" w-8/12 flex flex-col">
+                <div class="w-full flex flex-col">
                     <form method="POST" class="flex w-full" id="setAlarm">
-                        <fieldset class="flex w-full  justify-evenly">
+                        <fieldset class="flex w-full justify-evenly">
                             <legend class="text-white ml-7 text-lg font-bold mb-5">Set your alarm</legend>
-                            <div>
+                            <div class="self-center">
                                 <label class="text-white text-lg" for="hour">Heure</label>
                                 <input class="w-10 " name="hours" type="text" id="hour">
                             </div>
-                            <div>
+                            <div class="self-center">
                                 <label class="text-white text-lg" for="minute">Minute</label>
                                 <input class="w-10" name="minutes" type="text" id="minute">
                             </div>
-                            <div class="flex flex-col justify-center">
-                                <label class="text-white text-lg" for="msg">Message Rappel</label>
-                                <textarea name="msg" id="msg" cols="20" rows="2"></textarea>
+                            <div class="self-center">
+                                <label class="text-white text-lg" for="msg">Message</label>
+                                <textarea name="msg" id="msg" cols="20" rows="1"></textarea>
                             </div>
-                            <div>
+                            <div class="self-center">
                                 <button id="addAlarm" name="addAlarm" type="submit" value="submit"
                                         class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                                     Add

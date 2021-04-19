@@ -45,19 +45,17 @@ document.forms["setTimer"].addEventListener('submit', function (e) {
 let start = null;
 
 function timer() {
-
     // recup int val from node
     let s = parseInt(spanSecTimer.innerHTML);
     let m = parseInt(spanMinTimer.innerHTML);
     let h = parseInt(spanHourTimer.innerHTML);
-
     // Tant qu'il y a des secondes on les décrementes
     if (s !== 0) {
         s--;
         s < 10 ? spanSecTimer.innerHTML = `0${s}` : spanSecTimer.innerHTML = `${s}`
 
     }
-        // sinon si les secondes arrivent a 0 et que les minutes sont différente de 0 on décremente une minute et on rétablit les seconde a 59;
+        // sinon si les secondes arrivent a 0 et que les minutes sont différentes de 0 on décremente une minute et on rétablit les seconde a 59;
     //sinon si les secondes arrivents à 0 et que les heure arrivent a 0 mais qu'il reste des minutes  on applique la même règle
     else if (s === 0 && m !== 0 || s === 0 && h === 0 && m !== 0) {
         m--;
@@ -93,16 +91,19 @@ startBtn.addEventListener('click', function (e) {
 })
 
 upBtn.addEventListener('click', function (e) {
-    let hour = parseInt(spanSecTimer.value);
-    isNaN(hour) ? hour = 0 : '';
-    hour++;
-    console.log(hour)
-    spanHourTimer.innerHTML = `${hour}`
+    e.preventDefault();
+    let ho = spanHourTimer.innerHTML;
+    ho = parseInt(ho);
+    ho++;
+    ho < 10 ? spanHourTimer.innerHTML = `0${ho}` : spanHourTimer.innerHTML = ho;
 })
 
 downBtn.addEventListener('click', function (e) {
     e.preventDefault();
-    let hour = parseInt(spanSecTimer.innerHTML);
-    hour--;
-    spanHourTimer.innerHTML = `${hour}`
+    let ho = spanHourTimer.innerHTML;
+    ho = parseInt(ho);
+    if (ho > 0) {
+        ho--;
+        ho < 10 ? spanHourTimer.innerHTML = `0${ho}` : spanHourTimer.innerHTML = ho;
+    }
 })
